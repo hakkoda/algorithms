@@ -1,26 +1,24 @@
 "use strict";
 
-Array.prototype.selectionSort = function() {
-    console.log(`      0 1 2 3 4 5`);
-    console.log(`-----------------`);
-    console.log(`      ${this}`);
+Array.prototype.selectionSort = function(callback) {
     const n = this.length;
-    var exchangeCt = 0;
-    var compareCt = 0;
+    var totalExchanged = 0;
+    var totalCompared = 0;
     for (let i = 0; i < n; i++) {
         let min = i;
         let innerCompareCt = 0;
         for (let j = i+1; j < n; j++) {
-            compareCt++;
+            totalCompared++;
             innerCompareCt++;
-            if (this.less(j, min)) {
+            if (this.less(j, min, callback)) {
                 min = j;
             }
         }
-        console.log(`${i} ${min} : ${this} : ${innerCompareCt} (${n} - ${i+1})`);
         this.exchange(i, min);
-        exchangeCt++;
+        process.stdout.write(`: i: ${i}, min: ${min}, compares: ${innerCompareCt}`);
+        totalExchanged++;
     }
-    console.log(`      ${this}`);
-    console.log(`Compares: ${compareCt}, Exchanges: ${exchangeCt}`);
+
+    var info = `Total Compared:  ${totalCompared}, Total Exchanged: ${totalExchanged}`;
+    this.displayArray(info, "\n");
 };

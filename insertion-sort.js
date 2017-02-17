@@ -1,8 +1,6 @@
 "use strict";
 
 Array.prototype.insertionSort = function(callback) {
-    console.log(`\n      ${this}`);
-
     var totalCompared = 0;
     var totalExchanged = 0;
 
@@ -17,37 +15,13 @@ Array.prototype.insertionSort = function(callback) {
         }
         totalCompared += compared;
         totalExchanged += exchanged;
-        console.log(`${compared} ${exchanged} : ${this}`);
+        if (exchanged === 0) {
+            this.displayArray(`Compared: ${compared}, Exchanged: ${exchanged}`, "\n");
+        } else {
+            process.stdout.write(`: Compared: ${compared}, Exchanged: ${exchanged}`);
+        }
     }
 
-    console.log(`Total Compared:  ${totalCompared}`);
-    console.log(`Total Exchanged: ${totalExchanged}`);
+    var info = `\nTotal Compared:  ${totalCompared}, Total Exchanged: ${totalExchanged}`;
+    process.stdout.write(info);
 };
-
-Array.prototype.less = function(index1, index2, compare) {
-    if (compare !== undefined) {
-        return compare.call(this, index1, index2);
-    } else {
-        var result = false;
-        if (this[index1] > this[index2]) { result = false; }
-        if (this[index1] < this[index2]) { result = true; }
-        return result;
-    }
-};
-
-Array.prototype.exchange = function(index1, index2) {
-    var temp = this[index1];
-    this[index1] = this[index2];
-    this[index2] = temp;
-};
-
-Array.strToArray = function(str) {
-    const n = str.length;
-    var result = [];
-    for (let i = 0; i < n; i++) {
-        result.push(str[i]);
-    }
-    return result;
-};
-
-
