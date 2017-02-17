@@ -8,6 +8,8 @@ var algorithm = "insertion";
 //[ 6, 5, 4, 3, 2, 1 ].customSort(algorithm);
 [ 6, 5, 4, 3, 2, 1 ].customSort("insertion");
 [ 6, 5, 4, 3, 2, 1 ].customSort("selection");
+
+setInterval(function() { }, 5000);
 /*
 [
     { word: "cat", toString() { return this.word; } }

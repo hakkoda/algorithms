@@ -1,5 +1,7 @@
 "use strict";
 
+var colors = require("colors");
+
 Array.prototype.customSort = function(algorithm, compareCallback) {
     process.stdout.write("\n");
     this.displayArray(`start ${algorithm} sort`, "\n");
@@ -56,7 +58,8 @@ Array.prototype.displayWithHighlight = function(positions) {
     process.stdout.write("\n: ");
     this.forEach(function(item, index) {
         if (positions.indexOf(index) > -1) {
-            process.stdout.write(`\x1b[31m${item}\x1b[0m `);
+            //process.stdout.write(`\x1b[31m${item}\x1b[0m `);
+            process.stdout.write(colors.red(item.toString()) + " ");
         } else {
             process.stdout.write(`${item} `);
         }
