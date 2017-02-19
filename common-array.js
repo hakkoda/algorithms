@@ -3,8 +3,6 @@
 var colors = require("colors");
 
 Array.prototype.customSort = function(algorithm, compareCallback) {
-    process.stdout.write("\n");
-    this.displayArray(`start ${algorithm} sort`, "\n");
     switch (algorithm) {
         case "selection":
             this.selectionSort(compareCallback);
@@ -13,7 +11,6 @@ Array.prototype.customSort = function(algorithm, compareCallback) {
             this.insertionSort(compareCallback);
             break;
     }
-    process.stdout.write("\n");
 };
 
 Array.prototype.less = function(index1, index2, compare) {
@@ -31,7 +28,8 @@ Array.prototype.exchange = function(index1, index2) {
     var temp = this[index1];
     this[index1] = this[index2];
     this[index2] = temp;
-    this.displayWithHighlight([ index1, index2 ]);
+    this.emit("exchange", this, [ index1, index2 ]);
+    //this.displayWithHighlight([ index1, index2 ]);
 };
 
 Array.strToArray = function(str) {
@@ -45,23 +43,22 @@ Array.strToArray = function(str) {
 
 Array.prototype.displayArray = function(post, pre) {
     pre = pre === undefined ? "" : pre;
-    //post = post === undefined ? "\n" : `${post}\n`;
-    post = post === undefined ? " " : `${post} `;
+    post = post === undefined ? "" : post;
     var out = "";
     this.forEach(function(item) {
         out += `${item} `;
     });
-    process.stdout.write(`${pre}: ${out}: ${post}`);
+    process.stdout.write(`: ${pre} : ${out} : ${post}`);
 };
 
-Array.prototype.displayWithHighlight = function(positions) {
-    process.stdout.write("\n: ");
-    this.forEach(function(item, index) {
+Array.displayWithHighlight = function(array, positions) {
+    process.stdout.write(": ");
+    array.forEach(function(item, index) {
         if (positions.indexOf(index) > -1) {
-            //process.stdout.write(`\x1b[31m${item}\x1b[0m `);
             process.stdout.write(colors.red(item.toString()) + " ");
         } else {
             process.stdout.write(`${item} `);
         }
     });
+    process.stdout.write("\n");
 };

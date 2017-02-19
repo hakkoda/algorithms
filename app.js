@@ -1,15 +1,54 @@
+"use strict";
+
 require("./common-array");
 require("./insertion-sort");
 require("./selection-sort");
 
-var algorithm = "insertion";
-//var algorithm = "selection";
+var events = require("events");
+var util = require("util");
+util.inherits(Array, events.EventEmitter);
 
-//[ 6, 5, 4, 3, 2, 1 ].customSort(algorithm);
-[ 6, 5, 4, 3, 2, 1 ].customSort("insertion");
-[ 6, 5, 4, 3, 2, 1 ].customSort("selection");
+var runLength = 5000;
+var runMax = 5000;
+var runMin = 1;
+var lists = generateLists(runLength, runMax, runMin);
+runCustomSorts(lists, false);
 
-setInterval(function() { }, 5000);
+function generateLists(length, max, min) {
+    var result = [
+        { algorithm: "insertion", list: [] },
+        { algorithm: "selection", list: [] }
+    ];
+
+    var master = [];
+    for (let i = 0; i < length; i++) {
+        master.push( Math.floor( Math.random() * (max - min) ) + 1 );
+    }
+
+    var resultLength = result.length;
+    for (let i = 0; i < length; i++) {
+        for (let j = 0; j < resultLength; j++) {
+            result[j].list.push(master[i]);
+        }
+    }
+
+    return result;
+}
+
+function runCustomSorts(lists, verbose) {
+    for (let i = 0; i < lists.length; i++) {
+        if (verbose) {
+            lists[i].list.on("exchange", Array.displayWithHighlight);
+        }
+        console.log(`\nStart ${lists[i].algorithm} sort`);
+        var start = Date.now();
+        lists[i].list.customSort(lists[i].algorithm);
+        var end = Date.now();
+        console.log(`\n${lists[i].algorithm}: ` + String(end - start));
+    }
+}
+
+//setInterval(function() { }, 5000);
 /*
 [
     { word: "cat", toString() { return this.word; } }
@@ -23,13 +62,3 @@ setInterval(function() { }, 5000);
 });*/
 
 //Array.strToArray("string").customSort(algorithm);
-
-/*console.log("\nInsertion Sort:");
-console.log("Average: ~(n^2)/4 compares and ~(n^2)/4 exchanges");
-console.log("Worst:   ~(n^2)/2 compares and ~(n^2)/2 exchanges");
-console.log("Best:         n-1 compares and        0 exchanges");
-
-[ 6, 5, 4, 3, 2, 1 ].insertionSort();
-[ 1, 2, 3, 4, 5, 6 ].insertionSort();
-[ 2, 3, 6, 5, 1, 4 ].insertionSort();
-[ 6, 5, 4, 3, 2, 1 ].selectionSort();*/
