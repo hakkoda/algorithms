@@ -14,12 +14,34 @@ if (cluster.isMaster) {
 } else {
     process.stdout.write(`\nworker ${process.pid} running...`);
     const suite = require("./sort-suite");
-    const runTrials = 30;
-    const runLength = 5000;
-    const runMax = 5000;
-    const runMin = 1;
-    suite.init(runTrials, runLength, runMax, runMin);
+    
+    const algorithms = [
+        "selection", 
+        "insertion"
+    ];
+    
+    var result = suite.init({ 
+        trials: 10,
+        size: 10000,
+        max: 10000,
+        min: 1,
+        algorithms: algorithms
+    });
+    
+    for (let i = 0; i < algorithms.length; i++) {
+        let targetResult = result[algorithms[i]];
+        let algorithm = algorithms[i];
+        let avg = targetResult.avg;
+        let min = targetResult.min;
+        let max = targetResult.max;
+        output(`\n${algorithm}- avg: ${avg}, min: ${min}, max: ${max}`);
+    }
+
     process.exit();
+
+    function output(msg) {
+        process.stdout.write(msg);
+    }
 }
 
 
