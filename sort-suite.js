@@ -7,7 +7,7 @@
 
     var events = require("events");
     var util = require("util");
-    util.inherits(Array, events.EventEmitter);
+    //util.inherits(Array, events.EventEmitter);
 
     var runCount = 0;
     var totalInsertion = 0;

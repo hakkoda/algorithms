@@ -28,7 +28,7 @@ Array.prototype.exchange = function(index1, index2) {
     var temp = this[index1];
     this[index1] = this[index2];
     this[index2] = temp;
-    this.emit("exchange", this, [ index1, index2 ]);
+    //this.emit("exchange", this, [ index1, index2 ]);
     //this.displayWithHighlight([ index1, index2 ]);
 };
 

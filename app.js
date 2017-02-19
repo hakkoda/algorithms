@@ -3,7 +3,7 @@
 var spawn = require("child_process").spawn;
 
 var suites = [];
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 1; i++) {
     suites.push(spawnSuite());
 }
 
