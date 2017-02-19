@@ -1,23 +1,26 @@
 "use strict";
 
-var spawn = require("child_process").spawn;
+const cluster = require("cluster");
+const cpus = require("os").cpus().length;
 
-var suites = [];
-for (let i = 0; i < 1; i++) {
-    suites.push(spawnSuite());
-}
-
-function spawnSuite() {
-    var suite = spawn("node", [ "sort-runner.js" ]);
-    /*var suite = spawn("node", [ "sort-runner.js" ], { 
-        stdio: [null,null,null,"ipc"] 
-    }).on("message", function(msg) { console.log(msg); });*/
-    suite.stdout.on("data", function(data) {
-        process.stdout.write(data.toString());
+if (cluster.isMaster) {
+    process.stdout.write(`\nMaster ${process.pid} running...`);
+    for (let i = 0; i < cpus; i++) {
+        cluster.fork();
+    }
+    cluster.on("exit", (worker, code, signal) => {
+        process.stdout.write(`\nworker ${worker.process.pid} died`);
     });
-    return suite;
+} else {
+    process.stdout.write(`\nworker ${process.pid} running...`);
+    const suite = require("./sort-suite");
+    const runTrials = 30;
+    const runLength = 5000;
+    const runMax = 5000;
+    const runMin = 1;
+    suite.init(runTrials, runLength, runMax, runMin);
+    process.exit();
 }
-
 
 
 

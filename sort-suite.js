@@ -5,11 +5,6 @@
     require("./insertion-sort");
     require("./selection-sort");
 
-    var events = require("events");
-    var util = require("util");
-    //util.inherits(Array, events.EventEmitter);
-
-    var runCount = 0;
     var totalInsertion = 0;
     var totalSelection = 0;
     var minInsertion = 1000;
@@ -20,9 +15,9 @@
     var avgSelection = 0;
     var lists = null;
 
-    suite.init = function(trials, length, max, min, verbose) {
+    suite.init = function(trials, length, max, min) {
         lists = generateLists(trials, length, max, min);
-        runCustomSorts(lists, verbose);
+        runCustomSorts(lists);
 
         for (let i = 0; i < lists.length; i++) {
             if (lists[i].algorithm === "insertion") {
@@ -38,10 +33,14 @@
         var avgInsertion = totalInsertion / (lists.length/2);
         var avgSelection = totalSelection / (lists.length/2);
 
-        process.stdout.write(`\nTrials: ${trials}, List length: ${length}`);
-        process.stdout.write(`\nSelection - avg: ${avgSelection}, min: ${minSelection}, max: ${maxSelection}`);
-        process.stdout.write(`\nInsertion - avg: ${avgInsertion}, min: ${minInsertion}, max: ${maxInsertion}`);
+        output(`\nTrials: ${trials}, List length: ${length}`);
+        output(`\nSelection - avg: ${avgSelection}, min: ${minSelection}, max: ${maxSelection}`);
+        output(`\nInsertion - avg: ${avgInsertion}, min: ${minInsertion}, max: ${maxInsertion}`);
     };
+
+    function output(msg) {
+        process.stdout.write(msg);
+    }
 
     function generateLists(trials, length, max, min) {
         var result = [];
@@ -83,23 +82,14 @@
         return result;
     }
 
-    function runCustomSorts(lists, verbose) {
+    function runCustomSorts(lists) {
         var start = 0;
         var end = 0;
         for (let i = 0; i < lists.length; i++) {
-            if (verbose) {
-                lists[i].list.on("exchange", Array.displayWithHighlight);
-                process.stdout.write(`\nStart ${lists[i].algorithm} sort`);
-            }
             start = Date.now();
             lists[i].list.customSort(lists[i].algorithm);
             end = Date.now();
             lists[i].runtime = end - start;
-
-            runCount++;
-            if (runCount % 20 === 0 && verbose) {
-                process.stdout.write(`\nSort count: ${runCount}`);
-            }
         }
     }
 
