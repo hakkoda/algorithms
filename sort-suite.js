@@ -4,6 +4,7 @@
     require("./common-array");
     require("./insertion-sort");
     require("./selection-sort");
+    require("./shell-sort");
 
     suite.init = function(options) {
         var testSets = generateTestSets(options);

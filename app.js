@@ -17,7 +17,8 @@ if (cluster.isMaster) {
     
     const algorithms = [
         "selection", 
-        "insertion"
+        "insertion",
+        "shell"
     ];
     
     var result = suite.init({ 

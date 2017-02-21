@@ -10,6 +10,9 @@ Array.prototype.customSort = function(algorithm, compareCallback) {
         case "insertion":
             this.insertionSort(compareCallback);
             break;
+        case "shell":
+            this.shellSort(compareCallback);
+            break;
     }
 };
 
@@ -43,11 +46,11 @@ Array.strToArray = function(str) {
 Array.prototype.displayArray = function(post, pre) {
     pre = pre === undefined ? "" : pre;
     post = post === undefined ? "" : post;
-    var out = "";
+    var out = ": ";
     this.forEach(function(item) {
         out += `${item} `;
     });
-    process.stdout.write(`: ${pre} : ${out} : ${post}`);
+    process.stdout.write(`${pre}${out}${post}`);
 };
 
 Array.displayWithHighlight = function(array, positions) {
