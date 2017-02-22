@@ -3,7 +3,13 @@
 const cluster = require("cluster");
 const cpus = require("os").cpus().length;
 
+const trials = 10;
+const size = 10000;
+const max = 10000;
+const min = 1;
+
 if (cluster.isMaster) {
+    process.stdout.write(`\nRunning ${trials} trials with size of ${size} on ${cpus} workers`);
     process.stdout.write(`\nMaster ${process.pid} running...`);
     for (let i = 0; i < cpus; i++) {
         cluster.fork();
@@ -22,10 +28,10 @@ if (cluster.isMaster) {
     ];
     
     var result = suite.init({ 
-        trials: 10,
-        size: 10000,
-        max: 10000,
-        min: 1,
+        trials: trials,
+        size: size,
+        max: max,
+        min: min,
         algorithms: algorithms
     });
     
