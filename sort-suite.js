@@ -5,6 +5,7 @@
     require("./insertion-sort");
     require("./selection-sort");
     require("./shell-sort");
+    require("./merge-sort");
 
     suite.init = function(options) {
         var testSets = generateTestSets(options);

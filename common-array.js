@@ -13,6 +13,9 @@ Array.prototype.customSort = function(algorithm, compareCallback) {
         case "shell":
             this.shellSort(compareCallback);
             break;
+        case "merge":
+            this.mergeSort(compareCallback);
+            break;
         case "default":
             this.shellSort(compareCallback);
             break;
