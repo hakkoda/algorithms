@@ -26,6 +26,7 @@ if (cluster.isMaster) {
         "insertion",
         "shell",
         "merge",
+        "quick",
         "default"
     ];
     
